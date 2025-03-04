@@ -1,0 +1,46 @@
+#pt run: docker compose -f prod.compose.yaml --build --remove-orphans up
+
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      #user = root
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./gen_db.sql:/docker-entrypoint-initdb.d/gen_db.sql
+    networks:
+      - db
+
+  adminer:
+    image: adminer
+    environment: 
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    networks:
+      - db
+  
+  fastapi:
+    build: 
+      context: ./server
+      dockerfile: server.dockerfile
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - db
+
+networks:
+  db:
+
+volumes:
+  db-data:

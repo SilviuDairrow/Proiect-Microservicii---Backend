@@ -1,0 +1,44 @@
+// python -m grpc_tools.protoc --proto_path=. --python_out=. --grpc_python_out=. auth.proto
+syntax = "proto3";
+
+package auth;
+
+enum Role {
+  ROLE_ADMIN = 0;
+  ROLE_STUDENT = 1;
+  ROLE_PROFESOR = 2;
+}
+
+service AuthService {
+  rpc CreereCont (CreereContRequest) returns (CreereContResponse);
+  rpc CreereSesiune (CreereSesiuneRequest) returns (CreereSesiuneResponse);
+  rpc VerifSesiune (VerifSesiuneRequest) returns (VerifSesiuneResponse);
+}
+
+message CreereContRequest {
+  string email = 1;
+  string password = 2;
+  Role role = 3;
+}
+
+message CreereContResponse {
+  string refresh_token = 1;
+}
+
+message CreereSesiuneRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message CreereSesiuneResponse {
+  string refresh_token = 1;
+}
+
+message VerifSesiuneRequest {
+  string refresh_token = 1;
+}
+
+message VerifSesiuneResponse {
+  string email = 1;
+  Role role = 2;
+}

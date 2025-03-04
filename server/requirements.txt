@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+mysql-connector-python
+sqlalchemy
+jinja2
+pymongo
+requests
+python-multipart 
+grpcio
+grpcio-tools
+pydantic
+python-dotenv
+grpc-client
+asyncio
+cryptography
+pydantic[email]
+email-validator
